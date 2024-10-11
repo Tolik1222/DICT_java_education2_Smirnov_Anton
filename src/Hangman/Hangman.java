@@ -10,15 +10,7 @@ public class Hangman {
         }
 
         HashSet<Character> guessedLetters = new HashSet<>();
-        int attempts = 8;
-
-        while (attempts > 0 && new String(hiddenWord).contains("-")) {
-            System.out.println("Word: " + new String(hiddenWord));
-            System.out.println("Input a letter: ");
-            String guessInput = scanner.nextLine();
-
-            if (guessInput.length() != 1) {
-                System.out.println("You should input a single letter.");
+        int single letter.");
                 continue;
             }
 
