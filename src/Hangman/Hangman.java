@@ -7,20 +7,6 @@ import java.util.Scanner;
 public class Hangman {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("HANGMAN");
-            System.out.println("Type 'play' to play the game, 'exit' to quit: ");
-            String input = scanner.nextLine();
-
-            if (input.equals("play")) {
-                playGame(scanner);
-            } else if (input.equals("exit")) {
-                break;
-            } else {
-                System.out.println("Invalid option. Please type 'play' or 'exit'.");
-            }
-        }
-    }
 
     public static void playGame(Scanner scanner) {
         String[] words = {"python", "java", "javascript", "kotlin"};
