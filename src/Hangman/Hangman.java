@@ -6,16 +6,7 @@ import java.util.Scanner;
 
 public class Hangman {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-    public static void playGame(Scanner scanner) {
-        String[] words = {"python", "java", "javascript", "kotlin"};
-        Random random = new Random();
-        String word = words[random.nextInt(words.length)];
-
-        char[] hiddenWord = new char[word.length()];
-        for (int i = 0; i < word.length(); i++) {
-            hiddenWord[i] = '-';
         }
 
         HashSet<Character> guessedLetters = new HashSet<>();
