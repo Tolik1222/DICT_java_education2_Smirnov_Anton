@@ -78,21 +78,7 @@ import java.util.Scanner;
                 System.out.println("You lost! The word was: " + word);
             }
         }
-    }
-            if (!Character.isLowerCase(guess)) {
-                System.out.println("Please enter a lowercase English letter.");
-                continue;
-            }
-
-            if (guessedLetters.contains(guess)) {
-                System.out.println("You've already guessed this letter.");
-                continue;
-            }
-
-            guessedLetters.add(guess);
-
-            if (word.indexOf(guess) >= 0) {
-                for (int i = 0; i < word.length(); i++) {
+    }{
                     if (word.charAt(i) == guess) {
                         hiddenWord[i] = guess;
                     }
