@@ -7,7 +7,20 @@ public class CoffeeMachine {
     private static int disposableCups = 9;
     private static int money = 550;
 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
+        while (true) {
+            System.out.println("Write action (buy, fill, take, remaining, exit):");
+            String action = scanner.next();
+
+            if (action.equals("buy")) {
+                buyCoffee(scanner);
+            } else if (action.equals("fill")) {
+                fillMachine(scanner);
+            } else if (action.equals("take")) {
+                takeMoney();
+            } else if (action.equals("remaining")) {
                 printStatus();
             } else if (action.equals("exit")) {
                 break;
