@@ -12,6 +12,7 @@ public class MatrixProcessing {
             System.out.println("1. Add matrices");
             System.out.println("2. Multiply matrix by a constant");
             System.out.println("3. Multiply matrices");
+            System.out.println("4. Transpose matrix");
             System.out.println("0. Exit");
             System.out.print("Your choice: ");
             int choice = scanner.nextInt();
@@ -33,6 +34,10 @@ public class MatrixProcessing {
                 case 3:
                     // Multiply matrices
                     multiplyMatrices(scanner);
+                    break;
+                case 4:
+                    // Transpose matrix
+                    transposeMatrix(scanner);
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -155,6 +160,97 @@ public class MatrixProcessing {
         // Print the result
         System.out.println("The result is:");
         printMatrix(result);
+    }
+
+    private static void transposeMatrix(Scanner scanner) {
+        System.out.println("1. Main diagonal");
+        System.out.println("2. Side diagonal");
+        System.out.println("3. Vertical line");
+        System.out.println("4. Horizontal line");
+        System.out.print("Your choice: ");
+        int choice = scanner.nextInt();
+
+        // Read the matrix
+        System.out.print("Enter matrix size: ");
+        int rows = scanner.nextInt();
+        int cols = scanner.nextInt();
+        double[][] matrix = new double[rows][cols];
+        System.out.println("Enter matrix:");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = scanner.nextDouble();
+            }
+        }
+
+        double[][] result;
+        switch (choice) {
+            case 1:
+                result = transposeMainDiagonal(matrix);
+                break;
+            case 2:
+                result = transposeSideDiagonal(matrix);
+                break;
+            case 3:
+                result = transposeVertical(matrix);
+                break;
+            case 4:
+                result = transposeHorizontal(matrix);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                return;
+        }
+
+        System.out.println("The result is:");
+        printMatrix(result);
+    }
+
+    private static double[][] transposeMainDiagonal(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        double[][] transposed = new double[cols][rows];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                transposed[j][i] = matrix[i][j];
+            }
+        }
+        return transposed;
+    }
+
+    private static double[][] transposeSideDiagonal(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        double[][] transposed = new double[cols][rows];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                transposed[cols - j - 1][rows - i - 1] = matrix[i][j];
+            }
+        }
+        return transposed;
+    }
+
+    private static double[][] transposeVertical(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        double[][] transposed = new double[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                transposed[i][cols - j - 1] = matrix[i][j];
+            }
+        }
+        return transposed;
+    }
+
+    private static double[][] transposeHorizontal(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        double[][] transposed = new double[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                transposed[rows - i - 1][j] = matrix[i][j];
+            }
+        }
+        return transposed;
     }
 
     private static void printMatrix(double[][] matrix) {
