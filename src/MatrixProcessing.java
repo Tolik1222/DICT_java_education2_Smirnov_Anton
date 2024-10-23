@@ -15,6 +15,7 @@ public class MatrixProcessing {
             System.out.println("3. Multiply matrices");
             System.out.println("4. Transpose matrix");
             System.out.println("5. Calculate a determinant");
+            System.out.println("6. Inverse matrix");
             System.out.println("0. Exit");
             System.out.print("Your choice: ");
             int choice = scanner.nextInt();
@@ -38,6 +39,9 @@ public class MatrixProcessing {
                 case 5:
                     calculateDeterminant(scanner);
                     break;
+                case 6:
+                    inverseMatrix(scanner);
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
@@ -60,21 +64,66 @@ public class MatrixProcessing {
         return matrix;
     }
 
-    private static void multiplyMatrixByConstant(Scanner scanner) {
-        double[][] matrix = readMatrix(scanner, "Enter size of matrix: ");
-        System.out.print("Enter constant: ");
-        double constant = scanner.nextDouble();
+    private static void inverseMatrix(Scanner scanner) {
+        double[][] matrix = readMatrix(scanner, "Enter matrix size: ");
 
-        // Multiply the matrix by the constant
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                matrix[i][j] *= constant;
+        if (matrix.length != matrix[0].length) {
+            System.out.println("Only square matrices can have an inverse.");
+            return;
+        }
+
+        double determinant = calculateDeterminant(matrix);
+        if (determinant == 0) {
+            System.out.println("This matrix doesn't have an inverse.");
+            return;
+        }
+
+        double[][] inverse = calculateInverse(matrix);
+        System.out.println("The result is:");
+        printMatrix(inverse);
+    }
+
+    // Method to calculate inverse of a matrix
+    private static double[][] calculateInverse(double[][] matrix) {
+        int n = matrix.length;
+        double[][] augmentedMatrix = new double[n][2 * n];
+
+        // Create augmented matrix [matrix | I]
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                augmentedMatrix[i][j] = matrix[i][j];
+            }
+            augmentedMatrix[i][i + n] = 1.0;
+        }
+
+        // Perform Gaussian elimination
+        for (int i = 0; i < n; i++) {
+            // Make the diagonal element 1
+            double factor = augmentedMatrix[i][i];
+            for (int j = 0; j < 2 * n; j++) {
+                augmentedMatrix[i][j] /= factor;
+            }
+
+            // Make the other elements in the column 0
+            for (int k = 0; k < n; k++) {
+                if (k != i) {
+                    factor = augmentedMatrix[k][i];
+                    for (int j = 0; j < 2 * n; j++) {
+                        augmentedMatrix[k][j] -= factor * augmentedMatrix[i][j];
+                    }
+                }
             }
         }
 
-        // Print the result
-        System.out.println("The result is:");
-        printMatrix(matrix);
+        // Extract the inverse matrix
+        double[][] inverse = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                inverse[i][j] = augmentedMatrix[i][j + n];
+            }
+        }
+
+        return inverse;
     }
 
     private static void addMatrices(Scanner scanner) {
@@ -86,17 +135,30 @@ public class MatrixProcessing {
             return;
         }
 
-        // Add matrices
         double[][] result = new double[matrixA.length][matrixA[0].length];
         for (int i = 0; i < matrixA.length; i++) {
-            for (int j = 0; j < matrixA[i].length; j++) {
+            for (int j = 0; j < matrixA[0].length; j++) {
                 result[i][j] = matrixA[i][j] + matrixB[i][j];
             }
         }
 
-        // Print the result
         System.out.println("The result is:");
         printMatrix(result);
+    }
+
+    private static void multiplyMatrixByConstant(Scanner scanner) {
+        double[][] matrix = readMatrix(scanner, "Enter size of matrix: ");
+        System.out.print("Enter constant: ");
+        double constant = scanner.nextDouble();
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                matrix[i][j] *= constant;
+            }
+        }
+
+        System.out.println("The result is:");
+        printMatrix(matrix);
     }
 
     private static void multiplyMatrices(Scanner scanner) {
@@ -117,7 +179,6 @@ public class MatrixProcessing {
             }
         }
 
-        // Print the result
         System.out.println("The result is:");
         printMatrix(result);
     }
@@ -150,7 +211,6 @@ public class MatrixProcessing {
                 return;
         }
 
-        // Print the result
         System.out.println("The result is:");
         printMatrix(result);
     }
