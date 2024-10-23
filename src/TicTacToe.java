@@ -8,6 +8,8 @@ public class TicTacToe {
                 {' ', ' ', ' '},
                 {' ', ' ', ' '}
         };
+
+        boolean xTurn = true;
         printBoard(board);
 
         while (true) {
@@ -28,14 +30,46 @@ public class TicTacToe {
                     continue;
                 }
 
-                board[row][col] = 'X'; // Ходить тільки X
+                board[row][col] = xTurn ? 'X' : 'O';
                 printBoard(board);
-                break;
+
+                if (checkWin(board, xTurn ? 'X' : 'O')) {
+                    System.out.println((xTurn ? 'X' : 'O') + " wins");
+                    break;
+                }
+
+                if (isDraw(board)) {
+                    System.out.println("Draw");
+                    break;
+                }
+
+                xTurn = !xTurn; // Зміна черги ходу
             } catch (Exception e) {
                 System.out.println("You should enter numbers!");
                 scanner.next(); // Очищення вхідного буфера
             }
         }
+    }
+
+    public static boolean checkWin(char[][] board, char player) {
+        for (int i = 0; i < 3; i++) {
+            if (board[i][0] == player && board[i][1] == player && board[i][2] == player) return true;
+            if (board[0][i] == player && board[1][i] == player && board[2][i] == player) return true;
+        }
+        if (board[0][0] == player && board[1][1] == player && board[2][2] == player) return true;
+        if (board[0][2] == player && board[1][1] == player && board[2][0] == player) return true;
+        return false;
+    }
+
+    public static boolean isDraw(char[][] board) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static void printBoard(char[][] board) {
