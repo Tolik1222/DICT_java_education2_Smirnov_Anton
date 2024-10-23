@@ -3,19 +3,39 @@ import java.util.Scanner;
 public class TicTacToe {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter cells: ");
-        String input = scanner.nextLine();
+        char[][] board = {
+                {' ', ' ', ' '},
+                {' ', ' ', ' '},
+                {' ', ' ', ' '}
+        };
+        printBoard(board);
 
-        char[][] board = new char[3][3];
-        int index = 0;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = input.charAt(index);
-                index++;
+        while (true) {
+            System.out.print("Enter the coordinates: ");
+            int row, col;
+
+            try {
+                row = scanner.nextInt() - 1;
+                col = scanner.nextInt() - 1;
+
+                if (row < 0 || row > 2 || col < 0 || col > 2) {
+                    System.out.println("Coordinates should be from 1 to 3!");
+                    continue;
+                }
+
+                if (board[row][col] != ' ') {
+                    System.out.println("This cell is occupied! Choose another one!");
+                    continue;
+                }
+
+                board[row][col] = 'X'; // Ходить тільки X
+                printBoard(board);
+                break;
+            } catch (Exception e) {
+                System.out.println("You should enter numbers!");
+                scanner.next(); // Очищення вхідного буфера
             }
         }
-        printBoard(board);
-        analyzeGame(board);
     }
 
     public static void printBoard(char[][] board) {
@@ -28,41 +48,5 @@ public class TicTacToe {
             System.out.println("|");
         }
         System.out.println("---------");
-    }
-
-    public static void analyzeGame(char[][] board) {
-        int xCount = 0;
-        int oCount = 0;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board[i][j] == 'X') xCount++;
-                if (board[i][j] == 'O') oCount++;
-            }
-        }
-
-        boolean xWins = checkWin(board, 'X');
-        boolean oWins = checkWin(board, 'O');
-
-        if (xWins && oWins || Math.abs(xCount - oCount) > 1) {
-            System.out.println("Impossible");
-        } else if (xWins) {
-            System.out.println("X wins");
-        } else if (oWins) {
-            System.out.println("O wins");
-        } else if (xCount + oCount == 9) {
-            System.out.println("Draw");
-        } else {
-            System.out.println("Game not finished");
-        }
-    }
-
-    public static boolean checkWin(char[][] board, char player) {
-        for (int i = 0; i < 3; i++) {
-            if (board[i][0] == player && board[i][1] == player && board[i][2] == player) return true;
-            if (board[0][i] == player && board[1][i] == player && board[2][i] == player) return true;
-        }
-        if (board[0][0] == player && board[1][1] == player && board[2][2] == player) return true;
-        if (board[0][2] == player && board[1][1] == player && board[2][0] == player) return true;
-        return false;
     }
 }
