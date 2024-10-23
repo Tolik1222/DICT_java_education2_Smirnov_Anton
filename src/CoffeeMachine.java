@@ -14,16 +14,23 @@ public class CoffeeMachine {
             System.out.println("Write action (buy, fill, take, remaining, exit):");
             String action = scanner.next();
 
-            if (action.equals("buy")) {
-                buyCoffee(scanner);
-            } else if (action.equals("fill")) {
-                fillMachine(scanner);
-            } else if (action.equals("take")) {
-                takeMoney();
-            } else if (action.equals("remaining")) {
-                printStatus();
-            } else if (action.equals("exit")) {
-                break;
+            switch (action) {
+                case "buy":
+                    buyCoffee(scanner);
+                    break;
+                case "fill":
+                    fillMachine(scanner);
+                    break;
+                case "take":
+                    takeMoney();
+                    break;
+                case "remaining":
+                    printStatus();
+                    break;
+                case "exit":
+                    return;
+                default:
+                    System.out.println("Unknown action!");
             }
         }
     }
@@ -47,35 +54,41 @@ public class CoffeeMachine {
 
         int coffeeType = Integer.parseInt(choice);
 
-        if (coffeeType == 1) {
-            // Espresso
-            if (checkResources(250, 0, 16, 1)) {
-                water -= 250;
-                coffeeBeans -= 16;
-                disposableCups--;
-                money += 4;
-                System.out.println("I have enough resources, making you a coffee!");
-            }
-        } else if (coffeeType == 2) {
-            // Latte
-            if (checkResources(350, 75, 20, 1)) {
-                water -= 350;
-                milk -= 75;
-                coffeeBeans -= 20;
-                disposableCups--;
-                money += 7;
-                System.out.println("I have enough resources, making you a coffee!");
-            }
-        } else if (coffeeType == 3) {
-            // Cappuccino
-            if (checkResources(200, 100, 12, 1)) {
-                water -= 200;
-                milk -= 100;
-                coffeeBeans -= 12;
-                disposableCups--;
-                money += 6;
-                System.out.println("I have enough resources, making you a coffee!");
-            }
+        switch (coffeeType) {
+            case 1:
+                // Espresso
+                if (checkResources(250, 0, 16, 1)) {
+                    water -= 250;
+                    coffeeBeans -= 16;
+                    disposableCups--;
+                    money += 4;
+                    System.out.println("I have enough resources, making you a coffee!");
+                }
+                break;
+            case 2:
+                // Latte
+                if (checkResources(350, 75, 20, 1)) {
+                    water -= 350;
+                    milk -= 75;
+                    coffeeBeans -= 20;
+                    disposableCups--;
+                    money += 7;
+                    System.out.println("I have enough resources, making you a coffee!");
+                }
+                break;
+            case 3:
+                // Cappuccino
+                if (checkResources(200, 100, 12, 1)) {
+                    water -= 200;
+                    milk -= 100;
+                    coffeeBeans -= 12;
+                    disposableCups--;
+                    money += 6;
+                    System.out.println("I have enough resources, making you a coffee!");
+                }
+                break;
+            default:
+                System.out.println("Unknown coffee type!");
         }
     }
 
