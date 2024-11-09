@@ -34,12 +34,33 @@ public class RockPaperScissors {
 
         int userScore = ratings.getOrDefault(userName, 0);
 
-        // Зчитуємо варіанти для гри
-        System.out.print("Enter the options (comma-separated) or press Enter for default (rock, paper, scissors): ");
-        scanner.nextLine(); // Move to next line
+        // Показуємо доступні 15 варіантів
+        System.out.print("Enter the options (comma-separated) or press Enter for default (rock, paper, scissors).\n" +
+                "Available options: rock, fire, scissors, snake, human, tree, wolf, sponge, paper, air, water, dragon, devil, lightning, gun: ");
+        scanner.nextLine(); // Перехід на наступну лінію після введення імені
         String optionsInput = scanner.nextLine().trim();
-        List<String> options = optionsInput.isEmpty() ? Arrays.asList("rock", "paper", "scissors") :
+
+        // Перевіряємо, чи введені користувачем варіанти або вибираємо стандартний набір
+        List<String> options = optionsInput.isEmpty() ?
+                Arrays.asList("rock", "paper", "scissors") :
                 Arrays.asList(optionsInput.split(",")).stream().map(String::trim).toList();
+
+        // Повний список для правил на випадок, якщо користувач вибрав всі 15 варіантів
+        List<String> fullOptions = Arrays.asList(
+                "rock", "fire", "scissors", "snake", "human", "tree", "wolf", "sponge",
+                "paper", "air", "water", "dragon", "devil", "lightning", "gun"
+        );
+
+        // Генеруємо правила перемоги для кожного предмета
+        Map<String, List<String>> winningRules = new HashMap<>();
+        for (int i = 0; i < fullOptions.size(); i++) {
+            List<String> beats = new ArrayList<>();
+            for (int j = 1; j <= 7; j++) {
+                beats.add(fullOptions.get((i + j) % fullOptions.size()));
+            }
+            winningRules.put(fullOptions.get(i), beats);
+        }
+
         System.out.println("Okay, let's start");
 
         // Основний цикл гри
@@ -61,23 +82,12 @@ public class RockPaperScissors {
             }
 
             String computerChoice = options.get(random.nextInt(options.size()));
-            int userChoiceIndex = options.indexOf(userChoice);
-            int halfSize = (options.size() - 1) / 2;
-
-            List<String> beatenByUser = new ArrayList<>();
-            List<String> beatsUser = new ArrayList<>();
-
-            // Формуємо списки перемог і програшів для вибраної опції
-            for (int i = 1; i <= halfSize; i++) {
-                beatsUser.add(options.get((userChoiceIndex + i) % options.size()));
-                beatenByUser.add(options.get((userChoiceIndex - i + options.size()) % options.size()));
-            }
 
             // Визначаємо результат гри
             if (computerChoice.equals(userChoice)) {
                 System.out.println("There is a draw (" + computerChoice + ")");
                 userScore += 50;
-            } else if (beatenByUser.contains(computerChoice)) {
+            } else if (winningRules.get(userChoice).contains(computerChoice)) {
                 System.out.println("Well done. The computer chose " + computerChoice + " and failed");
                 userScore += 100;
             } else {
