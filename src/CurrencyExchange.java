@@ -4,13 +4,17 @@ public class CurrencyExchange {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Please, enter the number of mycoins you have: ");
+        System.out.print("Enter the number of mycoins: ");
         double mycoins = scanner.nextDouble();
 
-        System.out.print("Please, enter the exchange rate: ");
-        double rate = scanner.nextDouble();
+        double arsRate = 0.82; // Аргентинське песо
+        double hnlRate = 0.17; // Гондураська лемпіра
+        double audRate = 1.9622; // Австралійський долар
+        double madRate = 0.208; // Марокканський дирхам
 
-        double dollars = mycoins * rate;
-        System.out.printf("The total amount of dollars: %.2f%n", dollars);
+        System.out.printf("I will get %.2f ARS from the sale of %.2f mycoins.%n", mycoins * arsRate, mycoins);
+        System.out.printf("I will get %.2f HNL from the sale of %.2f mycoins.%n", mycoins * hnlRate, mycoins);
+        System.out.printf("I will get %.2f AUD from the sale of %.2f mycoins.%n", mycoins * audRate, mycoins);
+        System.out.printf("I will get %.2f MAD from the sale of %.2f mycoins.%n", mycoins * madRate, mycoins);
     }
 }
